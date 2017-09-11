@@ -23,7 +23,7 @@
 						details = '';
 						$.each(guildcharacterJSON[_guild][v.base_id], function (key,val){
 							characterCounts[val["character_stars"]]++;
-							characterDetail[val["character_stars"]] += "<div class='member'>"+val["player"] + "<br />" + val["character_level"] + " " + val["power"] + "</div>"
+							characterDetail[val["character_stars"]] += "<div class='member'>"+val["player"] + "<br />LVL:" + val["character_level"] + " P:" + val["power"] + "</div>"
 						});
 						for (var i=1;i<=7;i++){
 							var backgroundcolor = '';
@@ -37,6 +37,7 @@
 							details += "<td class='star "+backgroundcolor+"'>" + characterCounts[i] + "<div class='list'>"+characterDetail[i] + "</div></td>";
 						}
 						$("#characters").append("<tr class='character'>"+name+details+"</tr>");
+						$("#guild").text(_guild);
 					});
 				}
 				showGuild("Dragoons");
@@ -63,21 +64,28 @@
 			.faintred{
 				background-color: #fbe1e1;
 			}
-			#characters {
+			#characters, #headers {
 				width:100%;
 				border-collapse: collapse;
 			}
 			#characters tr:nth-child(even){
 				background:#dedede;
 			}
-			#characters th:first-child{
+			#characters td:first-child, #headers th:first-child{
 				width:16%;
 			}
-			#characters th:not(first-child){
+			#characters td:not(first-child), #headers th:not(first-child){
 				width:12%;
 			}
+			#characters tr{
+				border-bottom:1px solid black;
+			}
 			#characters tr:hover{
-				border:1px dashed black!important;
+				/*border-bottom:1px dashed black!important;*/
+				background:lightblue;
+			}
+			body{
+				margin-top:60px;
 			}
 			.member {
 				border: 1px solid black;
@@ -85,18 +93,37 @@
 				margin-top:3px;
 				padding:2px;
 			}
+			.header {
+				position: fixed;
+				width:100%;
+				background:white;
+				border-bottom:1px solid black;
+				left:0;
+				top:0;
+
+			}
+			.chooseguild {
+				padding:3px;
+			}
 		</style>
 		<title></title>
 	</head>
 
 	<body>
-		Show <button class="selectGuild" data-guild="Dragoons">Dragoons</button> 
+		<div class="header">
+			<div class="chooseguild">
+				Show <button class="selectGuild" data-guild="Dragoons">Dragoons</button> 
 				<button class="selectGuild" data-guild="ORS">ORS</button> 
 				<button class="selectGuild" data-guild="GMCG">GMCG</button>
+				Currently Viewing: <span id="guild"></span>
+			</div>
+			<table id="headers">
+				<tr>
+					<th>Character</th><th>1*</th><th>2*</th><th>3*</th><th>4*</th><th>5*</th><th>6*</th><th>7*</th>
+				</tr>
+			</table>
+		</div>
 		<table id="characters">
-			<tr>
-				<th>Character</th><th>1*</th><th>2*</th><th>3*</th><th>4*</th><th>5*</th><th>6*</th><th>7*</th>
-			</tr>
 		</table>
 	</body>
 </html>
