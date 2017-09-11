@@ -42,7 +42,7 @@
 				}
 				showGuild("Dragoons");
 				$(".selectGuild").on('click',function(){
-					$("#characters tr:not(:first)").remove();
+					$("#characters tr").remove();
 					showGuild($(this).data("guild"));
 				})
 				$("#characters").on('click', '.star', function(){
