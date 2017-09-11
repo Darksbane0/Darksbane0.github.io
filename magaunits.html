@@ -80,12 +80,15 @@
 			#characters tr{
 				border-bottom:1px solid black;
 			}
+			#characters tr>td{
+				vertical-align: top;
+			}
 			#characters tr:hover{
 				/*border-bottom:1px dashed black!important;*/
 				background:lightblue;
 			}
 			body{
-				margin-top:60px;
+				margin-top:75px;
 			}
 			.member {
 				border: 1px solid black;
@@ -117,6 +120,7 @@
 				<button class="selectGuild" data-guild="GMCG">GMCG</button>
 				Currently Viewing: <span id="guild"></span>
 			</div>
+			<div>Click on a number to see a list of members with that character</div>
 			<table id="headers">
 				<tr>
 					<th>Character</th><th>1*</th><th>2*</th><th>3*</th><th>4*</th><th>5*</th><th>6*</th><th>7*</th>
