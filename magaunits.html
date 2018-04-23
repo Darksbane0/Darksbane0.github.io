@@ -36,6 +36,7 @@
 				return 0;
 			}
 			jQuery(document).ready(function($) {
+
 				var dialogCharactersOfInterest = $('#charactersofinterest').dialog({
 					autoOpen: false,
 					modal: true,
@@ -379,7 +380,65 @@
 				    }
 				}
 				function getCellValue(row, index){ return $(row).children('td').eq(index).html() }
+
+				if (typeof(location.querystring["guild"]) !== "undefined"){
+					switch (location.querystring["guild"]){
+						case 'Dragoons':
+							showGuild('Dragoons');
+							break;
+						case 'GMCG':
+							showGuild('GMCG');
+							break;
+						case 'ORS':
+							showGuild('ORS');
+							break;
+						case 'GO':
+							showGuild('GO');
+							break;
+						case 'BB':
+							showGuild('BB');
+							break;
+						case 'PRIME':
+							showGuild('PRIME');
+							break;
+					}
+				}
 			});
+
+			location.querystring = (function() {
+				// The return is a collection of key/value pairs
+				var queryStringDictionary = {};
+				// Gets the query string, starts with '?'
+				var querystring = decodeURI(location.search);
+				// document.location.search is empty if no query string
+				if (!querystring) {
+					return {};
+				}
+				// Remove the '?' via substring(1)
+				querystring = querystring.substring(1);
+				// '&' seperates key/value pairs
+				var pairs = querystring.split("&");
+				// Load the key/values of the return collection
+				for (var i = 0; i < pairs.length; i++) {
+					var keyValuePair = pairs[i].split("=");
+					queryStringDictionary[keyValuePair[0]] 
+							= keyValuePair[1];
+				}
+				// toString() returns the key/value pairs concatenated
+				queryStringDictionary.toString = function() {
+					if (queryStringDictionary.length == 0) {
+						return "";
+					}
+					var toString = "?";
+					for (var key in queryStringDictionary) {
+						toString += key + "=" + 
+							queryStringDictionary[key];
+					}
+					return toString;
+				};
+				// Return the key/value dictionary
+				return queryStringDictionary;
+			})();
 		</script>
 		<style type = "text/css">
 			#dstb, #lstb {
@@ -508,10 +567,10 @@
 
 		</table>
 		<div id="charactersofinterest" title="Characters of Interest">
-			<table id='dstb'><tr><th>Name</th><th>Starck</th><th>Veers</th></tr></table>
-			<div>Total PD Shards Possible: <span id="totalPD"></span></div>
 			<table id='lstb'><tr><th>Name</th><th>CHS</th><th>HRSo</th></tr></table>
 			<div>Total ROLO Shards Possible: <span id="totalRolo"></span></div>
+			<table id='dstb'><tr><th>Name</th><th>Starck</th><th>Veers</th></tr></table>
+			<div>Total PD Shards Possible: <span id="totalPD"></span></div>
 		</div>
 		<div id="lsp4sm" title="LSP4 Special Mission">
 			<table id='lstbp4sm'><tr><th>Name</th><th>CHS</th><th>ROLO</th></tr></table>
