@@ -21,7 +21,6 @@
 	  display: flex;
 	}
 	#searchfields{
-	  width:100%;
 	  margin:10px;
 	}
 	#cards {
@@ -43,6 +42,9 @@
 	  border-radius: 4px;
 	  margin:4px;
 	  cursor:pointer;
+	}
+	#cards li {
+    	background: whitesmoke;
 	}
 	#cards li:hover{
 	  background:lightblue;
@@ -215,12 +217,14 @@ $(document).ready(function(){
     
   }
   getData();
-  $("#cardType,#cardRarity,#cardProfession,#cardBlue").on('change',function(){
+  $("#cardType,#cardRarity,#cardProfession,#cardBlue,#cardOrange,#cardWhite").on('change',function(){
     console.log($("#cardType").val());
     var cardType = "",
         cardRarity = "",
         cardProfession = "",
 		cardBlue = "",
+		cardOrange = "",
+		cardWhite = "",
         results = "";
     if ($("#cardType").val().length != $("#cardType")[0].length && $("#cardType").val().length > 0){
       cardType = 'and Type in (' + $("#cardType").val().map(i => `"${i}"`).join(",") + ')';
@@ -234,8 +238,14 @@ $(document).ready(function(){
 	if ($("#cardBlue").val().length != $("#cardBlue")[0].length && $("#cardBlue").val().length > 0){
       cardBlue = 'and Blue in (' + $("#cardBlue").val().map(i => `"${i}"`).join(",") + ')';
     }
+	if ($("#cardOrange").val().length != $("#cardOrange")[0].length && $("#cardOrange").val().length > 0){
+      cardOrange = 'and Orange in (' + $("#cardOrange").val().map(i => `"${i}"`).join(",") + ')';
+    }
+	if ($("#cardWhite").val().length != $("#cardWhite")[0].length && $("#cardWhite").val().length > 0){
+      cardWhite = 'and White in (' + $("#cardWhite").val().map(i => `"${i}"`).join(",") + ')';
+    }
     console.log(cardProfession);
-    var res = alasql("SELECT * FROM cards where 1=1 " + cardBlue + " " + cardProfession + " " + cardRarity + " " + cardType + " order by Name");
+    var res = alasql("SELECT * FROM cards where 1=1 " + cardOrange + " " + cardWhite + " " + cardBlue + " " + cardProfession + " " + cardRarity + " " + cardType + " order by Name");
     //console.log(res);
     $(".card").hide();
     results = res.map(i => `#${i.ID}`).join(",");
