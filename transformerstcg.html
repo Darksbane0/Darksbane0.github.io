@@ -14,7 +14,10 @@
 	    background-image: url(https://transformers.hasbro.com/images/tcg/main_bg.png);
 	}
 	.searchresults {
-	  width:300px;
+		width:300px;
+		max-height: 519px;
+		overflow-x: hidden;
+		overflow-y: scroll;		
 	}
 	#display {
 	  display: -webkit-flex;
@@ -35,7 +38,8 @@
 	}
 
 	.image img {
-	  max-width:600px;
+	  	max-width: 100%;
+    	max-height: 519px;
 	}
 	#cards li {
 	  border: 1px solid black;
@@ -49,8 +53,32 @@
 	#cards li:hover{
 	  background:lightblue;
 	}
-
-
+.pip {
+    display: inline-block;
+    width: 44px;
+    /* margin: 3px; */
+    line-height: 40px;
+    position: relative;
+    outline: 0;
+    height: 30px;
+    margin-top: -7px;
+	border-radius: 4px;
+}
+.orange {
+    background-image: url(https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/41678556_1797997690322048_501…4368354304_n.png?_nc_cat=0&oh=dbb93e3…&oe=5C5E62E6);
+    background-position-x: -316px;
+    background-position-y: -19px;
+}
+.white {
+    background-image: url(https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/41548494_1799073000214517_2856566002492112896_n.png?_nc_cat=0&oh=695a1e3be20bf4981c376082a26a7e5a&oe=5C328662);
+    background-position-x: -316px;
+    background-position-y: -19px;
+}
+.blue {
+    background-image: url(https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/41442038_1797846933670457_4689190013248733184_n.png?_nc_cat=0&oh=f62984e9523fb56fa8143d907269711c&oe=5C338C03);
+    background-position-x: -316px;
+    background-position-y: -19px;
+}
 	.SelectClass,.SumoSelect.open .search-txt,.SumoUnder
 	   {position:absolute;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;top:0;left:0}
 	.SumoSelect p{margin:0}
@@ -76,28 +104,31 @@
   <h1>Transformers TCG</h1>
 <div id="content">
   <div id="searchfields">
-    <input type="text" id="cardName"></input>
-    <select id="cardType" multiple="multiple">
+    Title: <input type="text" id="cardName"></input>
+    Type: <select id="cardType" multiple="multiple">
     </select>
-    <select id="cardRarity" multiple="multiple">
+    Rarity:<select id="cardRarity" multiple="multiple">
     </select>
-    <select id="cardProfession">
+    SubType: <select id="cardProfession">
       <option>Any</option>
     </select>
+	<div class="pip orange">&nbsp;</div>
     <select id="cardOrange" multiple="multiple">
     </select>
+	<div class="pip blue">&nbsp;</div>
     <select id="cardBlue" multiple="multiple">
     </select>
+	<div class="pip white">&nbsp;</div>
     <select id="cardWhite" multiple="multiple">
     </select>
-    <select id="cardAttackAlt" multiple="multiple">
+    Attack: <select id="cardAttackAlt" multiple="multiple">
     </select>
-    <select id="cardAttackBot" multiple="multiple">
+    Attack: <select id="cardAttackBot" multiple="multiple">
       <optgroup label="Bot Attack"></optgroup>
     </select>
-    <select id="cardStars" multiple="multiple">
+    Stars: <select id="cardStars" multiple="multiple">
     </select>
-    <select id="cardSet" multiple="multiple">
+    Set: <select id="cardSet" multiple="multiple">
       
     </select>
   </div>
