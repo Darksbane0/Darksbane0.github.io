@@ -257,7 +257,7 @@ $(document).ready(function(){
   getData();
   $("#cardType,#cardRarity,#cardProfession,#cardBlue,#cardOrange,#cardWhite,#cardSet, #cardAttackAlt, #cardAttackBot").on('change',function(){
     console.log($("#cardType").val());
-    var cardType = "",
+    var cardType = {},
         cardRarity = "",
         cardProfession = "",
         cardBlue = "",
@@ -268,7 +268,8 @@ $(document).ready(function(){
 	cardSet = "",
         results = "";
     if ($("#cardType").val().length != $("#cardType")[0].length && $("#cardType").val().length > 0){
-      cardType = 'and Type in (' + $("#cardType").val().map(i => `"${i}"`).join(",") + ')';
+      cardType.SQL = 'and Type in (' + $("#cardType").val().map(i => `"${i}"`).join(",") + ')';
+      cardType.URL = 'cardType='+("#cardType").val().map(i => `${i}`).join(",") + "&";
     }
     if ($("#cardRarity").val().length != $("#cardRarity")[0].length && $("#cardRarity").val().length > 0){
       cardRarity = 'and Rarity in (' + $("#cardRarity").val().map(i => `"${i}"`).join(",") + ')';
@@ -295,12 +296,16 @@ $(document).ready(function(){
       cardAttackBot = 'and AttackBot in (' + $("#cardAttackBot").val().map(i => `"${i}"`).join(",") + ')';
     } 
     console.log(cardProfession);
-    var res = alasql("SELECT * FROM cards where 1=1 " + cardAttackBot + " " + cardAttackAlt + " " + cardSet + " " + cardOrange + " " + cardWhite + " " + cardBlue + " " + cardProfession + " " + cardRarity + " " + cardType + " order by Name");
+    var query = "SELECT * FROM cards where 1=1 " + cardAttackBot + " " + cardAttackAlt + " " + cardSet + " " + cardOrange + " " + cardWhite + " " + cardBlue + " " + cardProfession + " " + cardRarity + " " + cardType.SQL + " order by Name"
+
+    var res = alasql(query);
     //console.log(res);
     $(".card").hide();
     results = res.map(i => `#${i.ID}`).join(",");
     console.log(results);
     $(results).show();
+    comp = LZString.compress(cardType.URL);
+    $("#compressed").text(comp);
   });
   $("#cards").on("mouseenter mouseleave", ".card", function(event){
 
