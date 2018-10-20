@@ -269,7 +269,7 @@ $(document).ready(function(){
         results = "";
     if ($("#cardType").val().length != $("#cardType")[0].length && $("#cardType").val().length > 0){
       cardType.SQL = 'and Type in (' + $("#cardType").val().map(i => `"${i}"`).join(",") + ')';
-      cardType.URL = 'cardType='+("#cardType").val().map(i => `${i}`).join(",") + "&";
+      cardType.URL = 'cardType='+$("#cardType").val().map(i => `${i}`).join(",") + "&";
     }
     if ($("#cardRarity").val().length != $("#cardRarity")[0].length && $("#cardRarity").val().length > 0){
       cardRarity = 'and Rarity in (' + $("#cardRarity").val().map(i => `"${i}"`).join(",") + ')';
