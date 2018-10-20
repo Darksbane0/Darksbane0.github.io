@@ -257,7 +257,7 @@ $(document).ready(function(){
   getData();
   $("#cardType,#cardRarity,#cardProfession,#cardBlue,#cardOrange,#cardWhite,#cardSet, #cardAttackAlt, #cardAttackBot").on('change',function(){
     console.log($("#cardType").val());
-    var cardType = {},
+    var cardType = {SQL:'',URL:''},
         cardRarity = "",
         cardProfession = "",
         cardBlue = "",
