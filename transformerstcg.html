@@ -15,9 +15,12 @@
 	}
 	.searchresults {
 		width:300px;
-		max-height: 519px;
+		max-height: 600px;
 		overflow-x: hidden;
 		overflow-y: scroll;		
+		    border-style: dashed;
+		    border-radius: 5px;
+		    margin: 5px;
 	}
 	#display {
 	  display: -webkit-flex;
@@ -35,11 +38,14 @@
 	.image {
 	  -webkit-flex: 1; 
 	  flex: 1;
+		margin: 5px;
+    border-radius: 5px;
+    border-style: solid;
 	}
 
 	.image img {
 	  	max-width: 100%;
-    	max-height: 519px;
+    	max-height: 600px;
 	}
 	#cards li {
 	  border: 1px solid black;
@@ -109,7 +115,7 @@
     </select></nobr>
     <nobr>Rarity:<select id="cardRarity" multiple="multiple">
     </select></nobr>
-    <nobr>SubType: <select id="cardProfession">
+    <nobr>Trait: <select id="cardProfession">
       <option>Any</option>
     </select></nobr>
 	<nobr><div class="pip orange">&nbsp;</div>
@@ -122,6 +128,7 @@
     <select id="cardWhite" multiple="multiple">
     </select></nobr>
     <nobr>Attack: <select id="cardAttackAlt" multiple="multiple">
+	<optgroup label="Alt/Utility Attack"></optgroup>
     </select></nobr>
     <nobr>Attack: <select id="cardAttackBot" multiple="multiple">
       <optgroup label="Bot Attack"></optgroup>
@@ -248,14 +255,17 @@ $(document).ready(function(){
     
   }
   getData();
-  $("#cardType,#cardRarity,#cardProfession,#cardBlue,#cardOrange,#cardWhite").on('change',function(){
+  $("#cardType,#cardRarity,#cardProfession,#cardBlue,#cardOrange,#cardWhite,#cardSet, #cardAttackAlt, #cardAttackBot").on('change',function(){
     console.log($("#cardType").val());
     var cardType = "",
         cardRarity = "",
         cardProfession = "",
-		cardBlue = "",
-		cardOrange = "",
-		cardWhite = "",
+        cardBlue = "",
+        cardOrange = "",
+        cardWhite = "",
+	cardAttackAlt = "",
+	cardAttackBot = "",
+	cardSet = "",
         results = "";
     if ($("#cardType").val().length != $("#cardType")[0].length && $("#cardType").val().length > 0){
       cardType = 'and Type in (' + $("#cardType").val().map(i => `"${i}"`).join(",") + ')';
@@ -266,17 +276,26 @@ $(document).ready(function(){
     if ($("#cardProfession").val() != "Any"){
       cardProfession = ' and Profession like ("%' + $("#cardProfession").val() + '%")'
     }
-	if ($("#cardBlue").val().length != $("#cardBlue")[0].length && $("#cardBlue").val().length > 0){
+    if ($("#cardBlue").val().length != $("#cardBlue")[0].length && $("#cardBlue").val().length > 0){
       cardBlue = 'and Blue in (' + $("#cardBlue").val().map(i => `"${i}"`).join(",") + ')';
     }
-	if ($("#cardOrange").val().length != $("#cardOrange")[0].length && $("#cardOrange").val().length > 0){
+    if ($("#cardOrange").val().length != $("#cardOrange")[0].length && $("#cardOrange").val().length > 0){
       cardOrange = 'and Orange in (' + $("#cardOrange").val().map(i => `"${i}"`).join(",") + ')';
     }
-	if ($("#cardWhite").val().length != $("#cardWhite")[0].length && $("#cardWhite").val().length > 0){
+    if ($("#cardWhite").val().length != $("#cardWhite")[0].length && $("#cardWhite").val().length > 0){
       cardWhite = 'and White in (' + $("#cardWhite").val().map(i => `"${i}"`).join(",") + ')';
     }
+    if ($("#cardSet").val().length != $("#cardSet")[0].length && $("#cardSet").val().length > 0){
+      cardSet = 'and Set in (' + $("#cardSet").val().map(i => `"${i}"`).join(",") + ')';
+    }
+    if ($("#cardAttackAlt").val().length != $("#cardAttackAlt")[0].length && $("#cardAttackAlt").val().length > 0){
+      cardAttackAlt = 'and AttackAlt in (' + $("#cardAttackAlt").val().map(i => `"${i}"`).join(",") + ')';
+    }  
+    if ($("#cardAttackBot").val().length != $("#cardAttackBot")[0].length && $("#cardAttackBot").val().length > 0){
+      cardAttackBot = 'and AttackBot in (' + $("#cardAttackBot").val().map(i => `"${i}"`).join(",") + ')';
+    } 
     console.log(cardProfession);
-    var res = alasql("SELECT * FROM cards where 1=1 " + cardOrange + " " + cardWhite + " " + cardBlue + " " + cardProfession + " " + cardRarity + " " + cardType + " order by Name");
+    var res = alasql("SELECT * FROM cards where 1=1 " + cardAttackBot + " " + cardAttackAlt + " " + cardSet + " " + cardOrange + " " + cardWhite + " " + cardBlue + " " + cardProfession + " " + cardRarity + " " + cardType + " order by Name");
     //console.log(res);
     $(".card").hide();
     results = res.map(i => `#${i.ID}`).join(",");
