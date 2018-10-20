@@ -14,13 +14,13 @@
 	    background-image: url(https://transformers.hasbro.com/images/tcg/main_bg.png);
 	}
 	.searchresults {
-		width:300px;
-		max-height: 600px;
-		overflow-x: hidden;
-		overflow-y: scroll;		
-		    border-style: dashed;
-		    border-radius: 5px;
-		    margin: 5px;
+	    width:300px;
+	    max-height: 600px;
+	    overflow-x: hidden;
+	    overflow-y: scroll;		
+	    border-style: dashed;
+	    border-radius: 5px;
+	    margin: 5px;
 	}
 	#display {
 	  display: -webkit-flex;
@@ -286,7 +286,7 @@ $(document).ready(function(){
       cardWhite = 'and White in (' + $("#cardWhite").val().map(i => `"${i}"`).join(",") + ')';
     }
     if ($("#cardSet").val().length != $("#cardSet")[0].length && $("#cardSet").val().length > 0){
-      cardSet = 'and Set in (' + $("#cardSet").val().map(i => `"${i}"`).join(",") + ')';
+      cardSet = 'and CardSet in (' + $("#cardSet").val().map(i => `"${i}"`).join(",") + ')';
     }
     if ($("#cardAttackAlt").val().length != $("#cardAttackAlt")[0].length && $("#cardAttackAlt").val().length > 0){
       cardAttackAlt = 'and AttackAlt in (' + $("#cardAttackAlt").val().map(i => `"${i}"`).join(",") + ')';
