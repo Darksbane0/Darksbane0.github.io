@@ -15,7 +15,7 @@
 	}
 	.searchresults {
 	    width:300px;
-	    max-height: 600px;
+	    height: 600px;
 	    overflow-x: hidden;
 	    overflow-y: scroll;		
 	    border-style: dashed;
@@ -127,12 +127,29 @@
 	<nobr><div class="pip white">&nbsp;</div>
     <select id="cardWhite" multiple="multiple">
     </select></nobr>
-    <nobr>Attack: <select id="cardAttackAlt" multiple="multiple">
-	<optgroup label="Alt/Utility Attack"></optgroup>
-    </select></nobr>
-    <nobr>Attack: <select id="cardAttackBot" multiple="multiple">
-      <optgroup label="Bot Attack"></optgroup>
-    </select></nobr>
+	<nobr>Attack: 
+		<select id="cardAttackAlt" multiple="multiple">
+			<optgroup label="Alt/Utility Attack"></optgroup>
+		</select>
+	</nobr>
+	<nobr>Attack: <select id="cardAttackBot" multiple="multiple">
+	<optgroup label="Bot Attack"></optgroup>
+	</select></nobr>
+	<nobr>Defense: 
+		<select id="cardDefenseAlt" multiple="multiple">
+			<optgroup label="Alt/Utility Defense"></optgroup>
+		</select>
+	</nobr>
+	<nobr>Defense: 
+		<select id="cardDefenseBot" multiple="multiple">
+			<optgroup label="Bot Defense"></optgroup>
+		</select>
+	</nobr>
+	<nobr>Health: 
+		<select id="cardHealth" multiple="multiple">
+
+		</select>
+	</nobr>
     <nobr>Stars: <select id="cardStars" multiple="multiple">
     </select></nobr>
     <nobr>Set: <select id="cardSet" multiple="multiple"></nobr>
@@ -240,10 +257,22 @@ $(document).ready(function(){
           }
           $("#cardAttackBot").append('<option selected="selected">' + attackbot + '</option>')
         });
-        var cardAttackAlt = alasql('SELECT distinct AttackAlt  FROM cards order by AttackAlt::NUMBER ');
-        $.each(cardAttackAlt, function(k,v){
-          $("#cardAttackAlt").append('<option selected="selected">' + v['AttackAlt'] + '</option>')
-        });
+		var cardAttackAlt = alasql('SELECT distinct AttackAlt  FROM cards order by AttackAlt::NUMBER ');
+		$.each(cardAttackAlt, function(k,v){
+			$("#cardAttackAlt").append('<option selected="selected">' + v['AttackAlt'] + '</option>')
+		});
+		var cardDefenseBot = alasql('SELECT distinct DefenseBot  FROM cards order by DefenseBot::NUMBER ');
+		$.each(cardDefenseBot, function(k,v){
+			$("#cardDefenseBot").append('<option selected="selected">' + v['DefenseBot'] + '</option>')
+		});
+		var cardDefenseAlt = alasql('SELECT distinct DefenseAlt  FROM cards order by DefenseAlt::NUMBER ');
+		$.each(cardDefenseAlt, function(k,v){
+			$("#cardDefenseAlt").append('<option selected="selected">' + v['DefenseAlt'] + '</option>')
+		});
+		var cardHealth = alasql('SELECT distinct Health  FROM cards order by Health::NUMBER ');
+		$.each(cardHealth, function(k,v){
+			$("#cardHealth").append('<option selected="selected">' + v['Health'] + '</option>')
+		});
         $("#cardName").SumoSelect({search: true, searchText: 'Enter here.'});
         $("#cardType,#cardRarity,#cardSet,#cardOrange,#cardBlue,#cardWhite,#cardStars,#cardAttackBot,#cardAttackAlt").SumoSelect({ selectAll: true });
         $("#cardProfession").SumoSelect();
@@ -255,18 +284,22 @@ $(document).ready(function(){
     
   }
   getData();
-  $("#cardType,#cardRarity,#cardProfession,#cardBlue,#cardOrange,#cardWhite,#cardSet, #cardAttackAlt, #cardAttackBot").on('change',function(){
+  $("#cardType,#cardRarity,#cardProfession,#cardBlue,#cardOrange,#cardWhite,#cardSet, #cardAttackAlt, #cardAttackBot, #cardDefenseAlt, #cardDefenseBot, #cardHealth, #cardStars").on('change',function(){
     console.log($("#cardType").val());
     var cardType = {SQL:'',URL:''},
-        cardRarity = "",
-        cardProfession = "",
-        cardBlue = "",
-        cardOrange = "",
-        cardWhite = "",
-	cardAttackAlt = "",
-	cardAttackBot = "",
-	cardSet = "",
-        results = "";
+		cardRarity = "",
+		cardProfession = "",
+		cardBlue = "",
+		cardOrange = "",
+		cardWhite = "",
+		cardAttackAlt = "",
+		cardAttackBot = "",
+		cardDefenseAlt = "",
+		cardDefenseBot = "",
+		cardHealth = "",
+		cardStars = "",
+		cardSet = "",
+		results = "";
     if ($("#cardType").val().length != $("#cardType")[0].length && $("#cardType").val().length > 0){
       cardType.SQL = 'and Type in (' + $("#cardType").val().map(i => `"${i}"`).join(",") + ')';
       cardType.URL = 'cardType='+$("#cardType").val().map(i => `${i}`).join(",") + "&";
@@ -289,14 +322,26 @@ $(document).ready(function(){
     if ($("#cardSet").val().length != $("#cardSet")[0].length && $("#cardSet").val().length > 0){
       cardSet = 'and CardSet in (' + $("#cardSet").val().map(i => `"${i}"`).join(",") + ')';
     }
-    if ($("#cardAttackAlt").val().length != $("#cardAttackAlt")[0].length && $("#cardAttackAlt").val().length > 0){
-      cardAttackAlt = 'and AttackAlt in (' + $("#cardAttackAlt").val().map(i => `"${i}"`).join(",") + ')';
-    }  
-    if ($("#cardAttackBot").val().length != $("#cardAttackBot")[0].length && $("#cardAttackBot").val().length > 0){
-      cardAttackBot = 'and AttackBot in (' + $("#cardAttackBot").val().map(i => `"${i}"`).join(",") + ')';
-    } 
+	if ($("#cardAttackAlt").val().length != $("#cardAttackAlt")[0].length && $("#cardAttackAlt").val().length > 0){
+		cardAttackAlt = 'and AttackAlt in (' + $("#cardAttackAlt").val().map(i => `"${i}"`).join(",") + ')';
+	}  
+	if ($("#cardAttackBot").val().length != $("#cardAttackBot")[0].length && $("#cardAttackBot").val().length > 0){
+		cardAttackBot = 'and AttackBot in (' + $("#cardAttackBot").val().map(i => `"${i}"`).join(",") + ')';
+	} 
+	if ($("#cardDefenseAlt").val().length != $("#cardDefenseAlt")[0].length && $("#cardDefenseAlt").val().length > 0){
+		cardDefenseAlt = 'and DefenseAlt in (' + $("#cardDefenseAlt").val().map(i => `"${i}"`).join(",") + ')';
+	}  
+	if ($("#cardDefenseBot").val().length != $("#cardDefenseBot")[0].length && $("#cardDefenseBot").val().length > 0){
+		cardDefenseBot = 'and DefenseBot in (' + $("#cardDefenseBot").val().map(i => `"${i}"`).join(",") + ')';
+	} 
+	if ($("#cardHealth").val().length != $("#cardHealth")[0].length && $("#cardHealth").val().length > 0){
+		cardHealth = 'and Health in (' + $("#cardHealth").val().map(i => `"${i}"`).join(",") + ')';
+	}
+	if ($("#cardStars").val().length != $("#cardStars")[0].length && $("#cardStars").val().length > 0){
+		cardStars = 'and Stars in (' + $("#cardStars").val().map(i => `"${i}"`).join(",") + ')';
+	} 
     console.log(cardProfession);
-    var query = "SELECT * FROM cards where 1=1 " + cardAttackBot + " " + cardAttackAlt + " " + cardSet + " " + cardOrange + " " + cardWhite + " " + cardBlue + " " + cardProfession + " " + cardRarity + " " + cardType.SQL + " order by Name"
+    var query = "SELECT * FROM cards where 1=1 " + cardDefenseAlt + " " + cardDefenseBot + " " + cardHealth + " " + cardStars + " " + cardAttackBot + " " + cardAttackAlt + " " + cardSet + " " + cardOrange + " " + cardWhite + " " + cardBlue + " " + cardProfession + " " + cardRarity + " " + cardType.SQL + " order by Name"
 
     var res = alasql(query);
     //console.log(res);
@@ -307,6 +352,7 @@ $(document).ready(function(){
     comp = LZString.compress(cardType.URL);
     $("#compressed").text(comp);
   });
+
   $("#cards").on("mouseenter mouseleave", ".card", function(event){
 
     if (event.type === "mouseenter"){
